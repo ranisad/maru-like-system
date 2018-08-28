@@ -3,18 +3,78 @@
   <h1>
     Welcome to {{ title }}!
   </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div>
+  <form #form="ngForm" (ngSubmit)="logForm(form.value)" novalidate>
+    <div>
+      <select name="p_date" ngModel required>
+        <option value="">select date</option>
+        <option *ngFor="let item of [7,1,2,3,4,5,6]">{{getnextWeekDateRange(item)}}</option>
+      </select>
+      <select name="driver" ngModel required>
+        <option>select driver</option>
+        <option *ngFor="let item of drivers" value={{item.value}}>{{item.name}}</option>
+      </select>
+      <select name="city" ngModel required>
+        <option>select city</option>
+        <option *ngFor="let item of city" value={{item.id}}>{{item.name}}</option>
+      </select>
+      <select name="starttime" ngModel required>
+        <option>select start time</option>
+        <option *ngFor="let item of time" value={{item}}>{{item}}</option>
+      </select>
+      <select name="endtime" ngModel required>
+        <option>select end time</option>
+        <option *ngFor="let item of time" value={{item}}>{{item}}</option>
+      </select>
+    </div>
+    <input type="submit" value="reserve booking" />
+  </form>
 
+  <div style="padding:10px;margin-top: 20px;border: 1px solid black; ">
+  <div>
+    <select required (change)="getDashBoardDataBYCity($event)" >
+      <option>select city</option>
+      <option *ngFor="let item of city" value={{item.id}}>{{item.name}}</option>
+    </select>
+  </div>
+  <div>
+    <table>
+      <tbody *ngIf="dashboardDataByCity.length > 0">
+        <tr>
+          <th></th>
+          <th *ngFor="let item of [7,1,2,3,4,5,6]">{{getnextWeekDateRange(item)}}</th>
+        </tr>
+        <tr *ngFor="let item of time;let last = last">
+            <td *ngIf="!last" style="position:relative;top:-10px">{{item}}</td>
+            <td *ngFor="let item1 of [7,1,2,3,4,5,6]" [style.background-color]="getColor(item,item1,last)">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
+
+
+  <div style="padding:10px;margin-top: 20px;border: 1px solid black; ">
+      <div>
+        <select required (change)="getDashBoardDataBYDriver($event)" >
+          <option>select driver</option>
+          <option *ngFor="let item of drivers" value={{item.value}}>{{item.name}}</option>
+        </select>
+      </div>
+      <div>
+        <table>
+          <tbody *ngIf="dashboardDataByDriver.length > 0">
+            <tr>
+              <th></th>
+              <th *ngFor="let item of [7,1,2,3,4,5,6]">{{getnextWeekDateRange(item)}}</th>
+            </tr>
+            <tr *ngFor="let item of time;let last = last">
+                <td *ngIf="!last" style="position:relative;top:-10px">{{item}}</td>
+                <td *ngFor="let item1 of [7,1,2,3,4,5,6]" [style.background-color]="getColor1(item,item1,last)">&nbsp;</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+</div>
